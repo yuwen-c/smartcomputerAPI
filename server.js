@@ -86,6 +86,7 @@ app.post('/register', (req, res) => {
     const { name, email, password} = req.body;
     db('users')
     .returning("*") // return all columns of that user
+    // specifies which column should be returned by insert. update . 
     .insert({
         name: name,
         email: email,
@@ -96,13 +97,25 @@ app.post('/register', (req, res) => {
     // bcrypt.hash(password, null, null, (err, hash) => {
     //     hashedPw = hash;
     // });
-    .catch(err => res.json("fail to register!!"));
+    .catch(err => res.status(400).json("fail to register!!"));
 })
 
+// get user profile through id
 // 後來不寫/:id了，findUserFun有改，改成body送資料
 app.get('/profile/:id', (req, res) => {
-    const [userIndex, finded] = findUserFun(req.params, false);
-    // const { id } = req.params;
+    const { id } = req.params;
+    db.select('*').from('users').where({
+        id: id
+    })
+    .then(user => {
+        if(user.length){
+            res.json(user[0]);
+        }
+        else{
+            res.status(400).json('user does not exit');
+        }})
+    .catch(error => res.status(400).json('cannot find user'));
+    // const [userIndex, finded] = findUserFun(req.params, false);
     // const numId = parseInt(id); // params是字串，改為數字
     // let userIndex = 0;
     // let finded = false; // flag
@@ -114,13 +127,8 @@ app.get('/profile/:id', (req, res) => {
     //         return item.id === numId;
     //     }
     // })
-    if(finded){
-        res.json(database.users[userIndex]); 
-    }else{
-        res.status(404).json("cannot find user id")
-    }
-   
 })
+
 // 帶入/:id 及 flag，找到userIndex
 const findUserFun = (user, finded) => {
     const { id } = user;
