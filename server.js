@@ -14,6 +14,10 @@ const db = knex({
     }
 });
 
+// test
+// since this return a promise, do .then to access data.
+// no need to do .json since it doesn't pass through HTTP
+// db.select("*").from('users').then(data => console.log(data)); // []
 
 const app = express();
 
@@ -79,22 +83,20 @@ app.post('/signin', (req, res) => {
 
 // new user sign up with data in body
 app.post('/register', (req, res) => {
-    // console.log(req.body);
     const { name, email, password} = req.body;
-    let hashedPw;
-    // encrypt password 
-    bcrypt.hash(password, null, null, (err, hash) => {
-        hashedPw = hash;
-    });
-    database.users.push({
-        id: 125,
+    db('users')
+    .returning("*") // return all columns of that user
+    .insert({
         name: name,
         email: email,
-        password: hashedPw,
-        entries: 0,
         joined: new Date()
-    });
-    res.json(database.users[database.users.length-1]);
+    })
+    .then(user => res.json(user[0])) // w/o [0], it returns an array
+    // encrypt password 
+    // bcrypt.hash(password, null, null, (err, hash) => {
+    //     hashedPw = hash;
+    // });
+    .catch(err => res.json("fail to register!!"));
 })
 
 // 後來不寫/:id了，findUserFun有改，改成body送資料
