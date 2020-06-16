@@ -115,18 +115,6 @@ app.get('/profile/:id', (req, res) => {
             res.status(400).json('user does not exit');
         }})
     .catch(error => res.status(400).json('cannot find user'));
-    // const [userIndex, finded] = findUserFun(req.params, false);
-    // const numId = parseInt(id); // params是字串，改為數字
-    // let userIndex = 0;
-    // let finded = false; // flag
-    // const findUser = database.users.some((item, index) => {
-    //     // 從資料庫裡面撈出 id符合的那一筆
-    //     if( item.id === numId){
-    //         userIndex = index;
-    //         finded = true;
-    //         return item.id === numId;
-    //     }
-    // })
 })
 
 // 帶入/:id 及 flag，找到userIndex
@@ -146,13 +134,13 @@ const findUserFun = (user, finded) => {
 
 // every time when user send an url, increase the entries.
 app.put('/image', (req, res) => {
-    const [userIndex, finded] = findUserFun(req.body, false);
-    if(finded){
-        database.users[userIndex].entries ++;
-        res.json(database.users[userIndex].entries); //回傳user
-    }else{
-        res.status(404).json("cannot find user id")
-    }
+    const { id } = req.body;
+    db('users')
+   .where({id: id})
+   .returning('entries')
+   .increment('entries', 1)
+    .then(data => res.json(data));
+
 })
 
 
