@@ -25,55 +25,65 @@ app.use(express.json());
 app.use(cors());
 
 // database
-const database = {
-    users:[
-        {
-            id: 123,
-            name: "Judy",
-            email: "judy@gmail.com",
-            password: "123",
-            entries: 0,
-            joined: new Date()
-        },
-        {
-            id: 124,
-            name: "David",
-            email: "david@gmail.com",
-            password: "124",
-            entries: 0,
-            joined: new Date()
-        }
-    ],
-    login:[
-        {
-            id: 123,
-            password: ""
-        },
-        {
-            id: 124,
-            password: ""
-        }
-    ]
-}
+// const database = {
+//     users:[
+//         {
+//             id: 123,
+//             name: "Judy",
+//             email: "judy@gmail.com",
+//             password: "123",
+//             entries: 0,
+//             joined: new Date()
+//         },
+//         {
+//             id: 124,
+//             name: "David",
+//             email: "david@gmail.com",
+//             password: "124",
+//             entries: 0,
+//             joined: new Date()
+//         }
+//     ],
+//     login:[
+//         {
+//             id: 123,
+//             password: ""
+//         },
+//         {
+//             id: 124,
+//             password: ""
+//         }
+//     ]
+// }
 
 // query all users
 app.get('/', (req, res) => {
-    res.json(database.users);
+    db.select('*').from('users').then(users => res.json(users))
 })
 
 
 // user signin with data in body
-
 app.post('/signin', (req, res) => {
     const { email, password } = req.body
-
-    if( email === database.users[0].email && 
-        password === database.users[0].password){
-            res.json(database.users[0]);
-        }   
-    else{
-        res.status(404).json("sign in failed!")
-    }
+    db.select('hash').from('login')
+    .where({email: email}) 
+    .then(data=> {
+        // if the email exists
+        if(data.length){
+            const isValid = bcrypt.compareSync(password, data[0].hash); 
+            if(isValid){
+                return db.select('*').from('users')
+                .where({email: email})
+                .then(user => res.json(user)) 
+            }else{
+                res.status(400).json('email or password is wrong!')
+            }
+        }
+        else{
+            res.status(400).json('cannot find user')
+        }
+    }) 
+    .catch(err => res.status(400).json("fail to sing in"))   
 })  
 
 
