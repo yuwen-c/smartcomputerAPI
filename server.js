@@ -74,7 +74,7 @@ app.post('/signin', (req, res) => {
             if(isValid){
                 return db.select('*').from('users')
                 .where({email: email})
-                .then(user => res.json(user)) 
+                .then(user => res.json(user[0])) 
             }else{
                 res.status(400).json('email or password is wrong!')
             }
