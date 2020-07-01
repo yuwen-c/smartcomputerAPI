@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
+const register = require('./controllers/register');
+const signin = require('./controllers/signin');
 
 // use knex to connect database to server
 const db = knex({
@@ -24,38 +26,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cors());
 
-// database
-// const database = {
-//     users:[
-//         {
-//             id: 123,
-//             name: "Judy",
-//             email: "judy@gmail.com",
-//             password: "123",
-//             entries: 0,
-//             joined: new Date()
-//         },
-//         {
-//             id: 124,
-//             name: "David",
-//             email: "david@gmail.com",
-//             password: "124",
-//             entries: 0,
-//             joined: new Date()
-//         }
-//     ],
-//     login:[
-//         {
-//             id: 123,
-//             password: ""
-//         },
-//         {
-//             id: 124,
-//             password: ""
-//         }
-//     ]
-// }
-
 // query all users
 app.get('/', (req, res) => {
     db.select('*').from('users').then(users => res.json(users))
@@ -63,75 +33,15 @@ app.get('/', (req, res) => {
 
 
 // user signin with data in body
-app.post('/signin', (req, res) => {
-    const { email, password } = req.body
-    db.select('hash').from('login')
-    .where({email: email}) 
-    .then(data=> {
-        // if the email exists
-        if(data.length){
-            const isValid = bcrypt.compareSync(password, data[0].hash); 
-            if(isValid){
-                return db.select('*').from('users')
-                .where({email: email})
-                .then(user => res.json(user[0])) 
-            }else{
-                res.status(400).json('email or password is wrong!')
-            }
-        }
-        else{
-            res.status(400).json('cannot find user')
-        }
-    }) 
-    .catch(err => res.status(400).json("fail to sing in"))   
-})  
+app.post('/signin', (req, res) => signin.HandleSignin(req, res, db, bcrypt))  
 
 
 
 // new user sign up with data in body
 // add data to 2 tables: login and users,
 // store hash in login
-
 // also, use transaction to make sure that the data will add to 2 tables at one time
-// 使用者輸入：姓名、mail、密碼註冊，要把資料存到login以及users
-app.post('/register', (req, res) => {
-    const { name, email, password } = req.body;
-    // encrypted password
-    const hash = bcrypt.hashSync(password);
-    // transaction begin
-    db.transaction(trx => {
-        return trx.insert({
-            email: email,
-            hash: hash
-        })
-        .into('login')
-        .returning('email')
-        .then(loginEmail => {
-            return trx
-            .returning('*')
-            .insert({
-                email: loginEmail[0],  // {"...@gmail.com"}
-                name: name,
-                joined: new Date()
-            })
-            .into('users')           
-            .then(user => res.json(user[0]))
-        })
-        .then(trx.commit)
-        .catch(trx.rollback)
-    })
-    .catch(error => console.log(error))
-
-    // db('users')
-    // .insert({
-    //     name: name,
-    //     email: email,
-    //     joined: new Date()
-    // })
-    // .returning("*") 
-    // .then(user => res.json(user[0])) // w/o [0], it returns an array
-    // .catch(err => res.status(400).json("fail to register!!"));
-})
+app.post('/register', (req, res) => register.HandleRegister(req, res, db, bcrypt))
 
 // get user profile through id
 app.get('/profile/:id', (req, res) => {
