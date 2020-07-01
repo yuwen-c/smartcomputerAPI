@@ -1,4 +1,4 @@
-const HandleRegister = (req, res, db, bcrypt) => {
+const handleRegister = (req, res, db, bcrypt) => {
     const { name, email, password } = req.body;
     // encrypted password
     const hash = bcrypt.hashSync(password);
@@ -27,4 +27,6 @@ const HandleRegister = (req, res, db, bcrypt) => {
     .catch(error => console.log(error))
 }
 
-module.exports = {HandleRegister: HandleRegister}
+module.exports = {
+    handleRegister: handleRegister
+};

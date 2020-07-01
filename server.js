@@ -4,6 +4,8 @@ const cors = require('cors');
 const knex = require('knex');
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
+const profile = require('./controllers/profile');
+const image = require('./controllers/image');
 
 // use knex to connect database to server
 const db = knex({
@@ -31,44 +33,20 @@ app.get('/', (req, res) => {
     db.select('*').from('users').then(users => res.json(users))
 })
 
-
 // user signin with data in body
-app.post('/signin', (req, res) => signin.HandleSignin(req, res, db, bcrypt))  
-
-
+app.post('/signin', (req, res) => signin.handleSignin(req, res, db, bcrypt))  
 
 // new user sign up with data in body
 // add data to 2 tables: login and users,
 // store hash in login
 // also, use transaction to make sure that the data will add to 2 tables at one time
-app.post('/register', (req, res) => register.HandleRegister(req, res, db, bcrypt))
+app.post('/register', (req, res) => register.handleRegister(req, res, db, bcrypt))
 
 // get user profile through id
-app.get('/profile/:id', (req, res) => {
-    const { id } = req.params;
-    db.select('*').from('users').where({
-        id: id
-    })
-    .then(user => {
-        if(user.length){
-            res.json(user[0]);
-        }
-        else{
-            res.status(400).json('user does not exit');
-        }})
-    .catch(error => res.status(400).json('cannot find user'));
-})
-
+app.get('/profile/:id', (req, res) => profile.handleProfileGet(req, res, db))
 
 // every time when user send an url, increase the entries.
-app.put('/image', (req, res) => {
-    const { id } = req.body;
-    db('users')
-    .where({id: id})
-    .returning('entries')
-    .increment('entries', 1)
-    .then(data => res.json(data));
-})
+app.put('/image', (req, res) => image.handleImage(req, res, db))
 
 
 
