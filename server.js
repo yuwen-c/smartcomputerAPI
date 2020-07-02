@@ -46,7 +46,8 @@ app.post('/register', (req, res) => register.handleRegister(req, res, db, bcrypt
 app.get('/profile/:id', (req, res) => profile.handleProfileGet(req, res, db))
 
 // every time when user send an url, increase the entries.
-app.put('/image', (req, res) => image.handleImage(req, res, db))
+app.put('/image', image.handleImage(db))
+// a curring syntax
 
 
 
