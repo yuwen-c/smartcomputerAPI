@@ -2,6 +2,8 @@ const Clarifai = require('clarifai');
 
 const clarifaiApp = new Clarifai.App({apiKey: '39549cfbc39a4a6d8c78bd943cd62036'});
 
+// get url from request of frontend, do fetch to clarifar server,
+// get face region data, send it through response to front end.
 const handleApiCall = (req, res) => {
     //face_detect_Model from Clarifai
     clarifaiApp.models.predict("a403429f2ddf4b49b307e318f00e528b", req.body.input)
