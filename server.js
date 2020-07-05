@@ -55,20 +55,6 @@ app.put('/image', image.handleImage(db))
 
 
 
-// 原本是輸入url，submit，這個url連同key被帶往clarifai server.
-// 回傳後1. grabface 將方框顯示在前端。
-// 2. 去database做entries 增加1
-
-// 現在希望把去clarifai查詢的動作移到後端
-// 當得到方框資訊，回傳前端。
-// 所以我可以利用一個api endpoint，傳入req(url)，得到res(faceRegions)傳回前端。
-// 這樣一來就很清楚了。太好了。
-
-// 對了，我本來以為後端server做的就是連接database
-// 但其實不止。前端不想透露出去的事情就可以給後端做。
-// 第一次前端後端一起改，覺得很酷 ＠＠
-
-
 
 
 // app.get('/profile/:id', (req, res) => {
