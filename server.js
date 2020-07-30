@@ -30,10 +30,14 @@ app.use(express.json());
 app.use(cors());
 
 // query all users
-app.get('/', (req, res) => {
-    db.select('*').from('users').then(users => res.json(users))
-})
+// app.get('/', (req, res) => {
+//     db.select('*').from('users').then(users => res.json(users))
+// })
 
+// test if server works
+app.get('/', (req, res) => {
+    res.send('connecting to server')
+})
 // user signin with data in body
 app.post('/signin', (req, res) => signin.handleSignin(req, res, db, bcrypt))  
 
@@ -81,6 +85,6 @@ app.put('/image', image.handleImage(db))
 // ok /image put, with user info> send user (update user file entries)
 
 app.listen(process.env.PORT || 3000, ()=> {
-    console.log(`it's running on port {provess.env.PORT}!`);
+    console.log(`it's running on port ${provess.env.PORT}!`);
 })
 
