@@ -30,14 +30,15 @@ app.use(express.json());
 app.use(cors());
 
 // query all users
-app.get('/', (req, res) => {
-    db.select('*').from('users').then(users => res.json(users))
-})
+// app.get('/', (req, res) => {
+//     db.select('*').from('users').then(users => res.json(users))
+// })
 
 // test if server works
-// app.get('/', (req, res) => {
-//     res.send('connecting to server')
-// })
+app.get('/', (req, res) => {
+    res.send('connecting to server')
+})
+
 // user signin with data in body
 app.post('/signin', (req, res) => signin.handleSignin(req, res, db, bcrypt))  
 
