@@ -25,9 +25,10 @@ const db = knex({
 const app = express();
 
 // middlewear to decode req.body
+app.use(cors());
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
-app.use(cors());
+
 
 // query all users
 // app.get('/', (req, res) => {
