@@ -85,6 +85,6 @@ app.put('/image', image.handleImage(db))
 // ok /image put, with user info> send user (update user file entries)
 
 app.listen(process.env.PORT || 3000, ()=> {
-    console.log(`it's running on port ${provess.env.PORT}!`);
+    console.log(`it's running on port ${process.env.PORT}!`);
 })
 
