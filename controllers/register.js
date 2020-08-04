@@ -38,7 +38,7 @@ const handleRegister = (req, res, db, bcrypt) => {
                 res.status(400).json("repeated email");
             }
         })
-        .catch(error => {res.status(400).json(error)})
+        .catch(error => {res.status(400).json("registration failed")})
     }
     else{
         res.status(400).json("please fill in the blanks");
