@@ -19,7 +19,7 @@ const handleSignin = (req, res, db, bcrypt) => {
                 res.status(400).json('wrong credentials') // email doesn't exist
             }
         }) 
-        .catch(err => res.status(400).json("fail to sing in"))   
+        .catch(err => res.status(400).json("fail to sign in"))   
     }
     else{
         res.status(400).json('please fill in the blanks')

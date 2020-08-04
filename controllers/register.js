@@ -2,15 +2,16 @@ const handleRegister = (req, res, db, bcrypt) => {
     const { name, email, password } = req.body;
     if(name && email && password){  // check no blank 
         // check if the email has already existed
-        db('users').where('email', email)
+        db('users').where('email', email.toLowerCase()) //email欄位裡是不是有符合的
         .then(data => {
-            if(data.length === 0){  // email is new, data is [ ]
+            console.log("data", data)
+            if(data.length === 0){  // no match, email is new, data is [ ]
                 // encrypted password
                 const hash = bcrypt.hashSync(password);
                 // transaction begin
                 db.transaction(trx => {
                     trx.insert({
-                        email: email,
+                        email: email.toLowerCase(),
                         hash: hash
                     })
                     .into('login')
@@ -34,9 +35,10 @@ const handleRegister = (req, res, db, bcrypt) => {
                 })
             }
             else if(data[0].id){ // mail exists, don't do registration
-                res.status(400).json("this email address has been registered!");
+                res.status(400).json("repeated email");
             }
-        });
+        })
+        .catch(error => {res.status(400).json(error)})
     }
     else{
         res.status(400).json("please fill in the blanks");
