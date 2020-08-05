@@ -22,9 +22,11 @@ const image = require('./controllers/image');
 // connecting postgre on heroku 
 const db = knex({
     client: 'pg',  // postgre
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
+    connection: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false
+        }
     }
 });
 
