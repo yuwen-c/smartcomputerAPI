@@ -9,13 +9,22 @@ const image = require('./controllers/image');
 
 
 // use knex to connect database to server
+// const db = knex({
+//     client: 'pg',  // postgre
+//     connection: {
+//       host : '127.0.0.1',  // localhost
+//       user : '',
+//       password : '',
+//       database : 'smartcomputer'
+//     }
+// });
+
+// connecting postgre on heroku 
 const db = knex({
     client: 'pg',  // postgre
-    connection: {
-      host : '127.0.0.1',  // localhost
-      user : '',
-      password : '',
-      database : 'smartcomputer'
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
     }
 });
 
