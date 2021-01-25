@@ -48,8 +48,8 @@ app.use(express.json());
 
 // test if server works
 app.get('/', (req, res) => {
-    res.send('send: connecting to server');
-    console.log('console: connecting!!');
+    res.json('connecting to server');
+    // console.log('console: connecting!!');
 })
 
 // user signin with data in body
