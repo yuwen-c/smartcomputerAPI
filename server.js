@@ -30,8 +30,6 @@ const db = knex({
     }
 });
 
-// test
-// db.select("*").from('users').then(data => console.log(data)); // []
 
 const app = express();
 
@@ -39,12 +37,6 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
-
-
-// query all users
-// app.get('/', (req, res) => {
-//     db.select('*').from('users').then(users => res.json(users))
-// })
 
 // test if server works
 app.get('/', (req, res) => {
@@ -71,32 +63,6 @@ app.post('/imageUrl', image.handleApiCall)
 app.put('/image', image.handleImage(db))
 // a curring syntax
 
-
-
-
-
-// app.get('/profile/:id', (req, res) => {
-//     const { id } = req.params;    
-//     database.users.forEach((item, index) => {        
-//         if(item.id === id){
-//             res.json(item);
-//         }
-//         else{
-//             // 這種寫法會出現error, 本來設定：找不到的話會回傳error message,
-//             // 但實際上：因為forEach會go through all users even if it's already find one,
-//             // 造成重複送出response, 導致server錯誤。
-//             console.log("else", item.id);
-//             res.status(404).json("cannot find one!");
-//         }
-//     })
-// })
-
-// a plan
-// ok / get, it's working 
-// ok /signin, post, with user info> send success/fail
-// ok /register, post, with user info> send user (add an user to database)
-// ok /profile/:id, get, with id> send user (homepage shows user file)
-// ok /image put, with user info> send user (update user file entries)
 
 app.listen(process.env.PORT || 3000, ()=> {
     console.log(`it's running on port ${process.env.PORT}!`);
