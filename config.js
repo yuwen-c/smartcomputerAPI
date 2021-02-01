@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
-    endpoint: process.env.CLARIFAI_API_URL,
-    apiKey: process.env.CLARIFAI_API_KEY,
-    port: process.env.PORT
+    ENDPOINT: process.env.CLARIFAI_API_URL,
+    APIKEY: process.env.CLARIFAI_API_KEY,
+    PORT: process.env.PORT
 };
