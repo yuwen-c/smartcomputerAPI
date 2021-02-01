@@ -7,8 +7,6 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 
-const {PORT} = require('./config');
-
 // use knex to connect database to server
 // const db = knex({
 //     client: 'pg',  // postgre
@@ -64,11 +62,11 @@ app.post('/imageUrl', image.handleApiCall)
 app.put('/image', image.handleImage(db))
 
 
-// app.listen(process.env.PORT || 3000, ()=> {
-//     console.log(`it's running on port ${process.env.PORT}!`);
-// })
-
-app.listen(PORT || 3000, () => {
-    console.log(`it's running on port ${PORT} based on the dotenv!`)
+app.listen(process.env.PORT || 3000, ()=> {
+    console.log(`it's running on port ${process.env.PORT}!`);
 })
+
+// app.listen(process.env.PORT || 3000, () => {
+//     console.log(`it's running on port ${PORT} based on the dotenv!`)
+// })
 
