@@ -9,8 +9,8 @@ const image = require('./controllers/image');
 
 // const dotenv = require('dotenv');
 // dotenv.config(); // call env directly when server got run
+// const { endpoint, masterKey, port} = require('./config');
 
-const { endpoint, masterKey, port} = require('./config');
 // use knex to connect database to server
 // const db = knex({
 //     client: 'pg',  // postgre
