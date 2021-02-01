@@ -64,7 +64,6 @@ app.post('/imageUrl', image.handleApiCall)
 
 // every time when user send an url, increase the entries.
 app.put('/image', image.handleImage(db))
-// a curring syntax
 
 
 app.listen(process.env.PORT || 3000, ()=> {
