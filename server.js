@@ -6,7 +6,7 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
-const { port } = require('./config');
+const { port, database } = require('./config');
 
 // use knex to connect database to server
 // const db = knex({
@@ -23,7 +23,7 @@ const { port } = require('./config');
 const db = knex({
     client: 'pg',  // postgre
     connection: {
-        connectionString: process.env.DATABASE_URL,
+        connectionString: database,
         ssl: {
           rejectUnauthorized: false
         }
