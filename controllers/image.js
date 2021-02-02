@@ -1,14 +1,15 @@
 const Clarifai = require('clarifai');
+const { apiKey, endpoint } = require('../config');
 
-const clarifaiApp = new Clarifai.App({apiKey: process.env.CLARIFAI_API_KEY});
+const clarifaiApp = new Clarifai.App({apiKey: apiKey});
 
 // get url from request of frontend, do fetch to clarifar server,
 // get face region data, send it through response to front end.
 const handleApiCall = (req, res) => {
     //face_detect_Model from Clarifai
-    clarifaiApp.models.predict(process.env.CLARIFAI_API_URL, req.body.input)
+    clarifaiApp.models.predict(endpoint, req.body.input)
     .then(response => res.json(response))
-    .catch(err => res.status(400).json(err))
+    .catch(err => res.status(400).json("unable to reach Clarifai server"))
 }
 
 
