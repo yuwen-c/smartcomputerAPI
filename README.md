@@ -1,7 +1,6 @@
 # smartcomputerAPI
 
-## An express server for [smartcomputer](https://yuwen-smartcomputer.netlify.app/)
-## your can also see the git repo [here](https://github.com/yuwen-c/smartcomputer)
+## An express server for [smartcomputer](https://yuwen-smartcomputer.netlify.app/), git repo see 👉 [here](https://github.com/yuwen-c/smartcomputer)
 
 
 ## technics
@@ -9,11 +8,13 @@
 ✨ database built by postgreSQL\
 ✨ connect database with Knex\
 ✨ face detection with Clarifai API\
-✨ save user password hash with bcrypt
+✨ save user password hash with bcrypt\
+✨ deployed to Heroku
 
 ## security
 🔐 save user password hash with bcrypt\
 🔐 Clarifai API key excluded from git\
+🔐 Clarifai API key set on Heroku\
 🔐 save clarifai API key as environment variable
 
 ## instructions
