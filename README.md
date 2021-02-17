@@ -4,7 +4,7 @@
 
 
 ## technics
-✨ built by express/nodo.js\
+✨ built by express/node.js\
 ✨ database built by postgreSQL\
 ✨ connect database with Knex\
 ✨ face detection with Clarifai API\
