@@ -18,7 +18,7 @@
 🔐 save clarifai API key as environment variable
 
 ## instructions
-⚙ find my environment variables in ```config.js```\
+⚙ find all the environment variables in ```config.js```\
 ⚙ see ```.env.example``` to prepare your ```.env``` file \
 ⚙ get your Clarifai API [here](https://www.clarifai.com/models/face-detection)
 
