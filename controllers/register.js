@@ -4,7 +4,6 @@ const handleRegister = (req, res, db, bcrypt) => {
         // check if the email has already existed
         db('users').where('email', email.toLowerCase()) //email欄位裡是不是有符合的
         .then(data => {
-            console.log("data", data)
             if(data.length === 0){  // no match, email is new, data is [ ]
                 // encrypted password
                 const hash = bcrypt.hashSync(password);
