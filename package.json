@@ -7,7 +7,9 @@
     "start": "node server.js",
     "start:dev": "nodemon server.js",
     "start:local": "nodemon -r dotenv/config server.js",
-    "start:local-to-heroku": "KNEX_CONFIG=LOCAL_SERVER_TO_HEROKU_DB nodemon -r dotenv/config server.js"
+    "start:local-to-heroku": "KNEX_CONFIG=LOCAL_SERVER_TO_HEROKU_DB nodemon -r dotenv/config server.js",
+    "start:heroku-to-heroku": "KNEX_CONFIG=HEROKU_SERVER_TO_HEROKU_DB nodemon -r dotenv/config server.js",
+    "start:local-to-local": "KNEX_CONFIG=LOCAL_SERVER_TO_LOCAL_DB nodemon -r dotenv/config server.js"
   },
   "keywords": [],
   "author": "",

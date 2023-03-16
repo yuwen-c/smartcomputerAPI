@@ -11,12 +11,39 @@ DB_CONFIG = {
       },
     },
   },
+  // default config
+  HEROKU_SERVER_TO_HEROKU_DB: {
+    client: 'pg', // postgres
+    connection: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
+  },
+  LOCAL_SERVER_TO_LOCAL_DB: {
+    client: 'pg', // postgres
+    connection: {
+      host: '127.0.0.1', // localhost
+      user: '',
+      password: '',
+      database: 'smartcomputer',
+    },
+  },
 };
-console.log('knex env', process.env.KNEX_CONFIG);
-let configuration;
-if (process.env.KNEX_CONFIG === 'LOCAL_SERVER_TO_HEROKU_DB') {
-  configuration = DB_CONFIG.LOCAL_SERVER_TO_HEROKU_DB;
-}
+
+const getKnexConfig = (env) => {
+  switch (env) {
+    case 'LOCAL_SERVER_TO_HEROKU_DB':
+      return DB_CONFIG.LOCAL_SERVER_TO_HEROKU_DB;
+    case 'LOCAL_SERVER_TO_LOCAL_DB':
+      return DB_CONFIG.LOCAL_SERVER_TO_LOCAL_DB;
+    default:
+      return DB_CONFIG.HEROKU_SERVER_TO_HEROKU_DB;
+  }
+};
+
+const knexConfiguration = getKnexConfig(process.env.KNEX_CONFIG);
 
 module.exports = {
   endpoint: process.env.CLARIFAI_API_URL,
@@ -29,5 +56,5 @@ module.exports = {
   CLARIFAI_APP_ID: process.env.CLARIFAI_APP_ID,
   CLARIFAI_MODEL_ID: process.env.CLARIFAI_MODEL_ID,
 
-  CONFIGURATION: configuration,
+  KNEX_CONFIGURATION: knexConfiguration,
 };

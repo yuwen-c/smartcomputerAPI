@@ -6,31 +6,9 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
-const { port, database, CONFIGURATION } = require('./config');
+const { port, KNEX_CONFIGURATION } = require('./config');
 
-// use knex to connect database to server
-// const db = knex({
-//     client: 'pg',  // postgre
-//     connection: {
-//       host : '127.0.0.1',  // localhost
-//       user : '',
-//       password : '',
-//       database : 'smartcomputer'
-//     }
-// });
-
-// connecting postgre on heroku
-// const db = knex({
-//     client: 'pg',  // postgre
-//     connection: {
-//         connectionString: database,
-//         ssl: {
-//           rejectUnauthorized: false
-//         }
-//     }
-// });
-
-const db = knex(CONFIGURATION);
+const db = knex(KNEX_CONFIGURATION);
 
 const app = express();
 
