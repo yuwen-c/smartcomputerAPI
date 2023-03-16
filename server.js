@@ -6,14 +6,7 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
-const {
-  port,
-  database,
-  KNEX_HOST,
-  KNEX_USER,
-  KNEX_PASSWORD,
-  KNEX_DATABASE,
-} = require('./config');
+const { port, database, CONFIGURATION } = require('./config');
 
 // use knex to connect database to server
 // const db = knex({
@@ -37,19 +30,7 @@ const {
 //     }
 // });
 
-// connect local backend server to database on heroku
-const db = knex({
-  client: 'pg',
-  connection: {
-    host: KNEX_HOST,
-    user: KNEX_USER,
-    password: KNEX_PASSWORD,
-    database: KNEX_DATABASE,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
-});
+const db = knex(CONFIGURATION);
 
 const app = express();
 
