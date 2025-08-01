@@ -55,6 +55,7 @@ module.exports = {
   CLARIFAI_USER_ID: process.env.CLARIFAI_USER_ID,
   CLARIFAI_APP_ID: process.env.CLARIFAI_APP_ID,
   CLARIFAI_MODEL_ID: process.env.CLARIFAI_MODEL_ID,
+  CLARIFAI_MODEL_VERSION_ID: process.env.CLARIFAI_MODEL_VERSION_ID,
 
   KNEX_CONFIGURATION: knexConfiguration,
 };

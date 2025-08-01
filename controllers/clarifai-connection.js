@@ -3,6 +3,7 @@ const {
   CLARIFAI_USER_ID,
   CLARIFAI_APP_ID,
   CLARIFAI_MODEL_ID,
+  CLARIFAI_MODEL_VERSION_ID,
 } = require('../config');
 
 const { ClarifaiStub, grpc } = require('clarifai-nodejs-grpc');
@@ -22,6 +23,7 @@ const fetchClarifai = (req, res) => {
           app_id: CLARIFAI_APP_ID,
         },
         model_id: CLARIFAI_MODEL_ID,
+        version_id: CLARIFAI_MODEL_VERSION_ID,
         inputs: [{ data: { image: { url: imgUrl, allow_duplicate_url: true } } }],
       },
       metadata,
