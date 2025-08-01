@@ -43,9 +43,14 @@ app.post('/imageUrl', image.handleApiCall);
 // every time when user send an url, increase the entries.
 app.put('/image', image.handleImage(db));
 
-// app.listen(process.env.PORT || 3000, ()=> {
-//     console.log(`it's running on port ${process.env.PORT}!`);
-// })
+// 全域錯誤處理中間件 - 處理其他路由的錯誤
+app.use((error, req, res, next) => {
+  console.error('未捕獲的錯誤:', error);
+  res.status(500).json({
+    error: '伺服器內部錯誤',
+    details: process.env.NODE_ENV === 'production' ? '請稍後再試' : error.message
+  });
+});
 
 app.listen(port || 3000, () => {
   console.log(`it's running on port ${port} based on the dotenv!`);
